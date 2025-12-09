@@ -1,5 +1,12 @@
-import SamplePage from './pages/SamplePage';
 import type { ReactNode } from 'react';
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import DashboardPage from './pages/DashboardPage';
+import RecycleBinPage from './pages/RecycleBinPage';
+import SharedLinksPage from './pages/SharedLinksPage';
+import AdminPage from './pages/AdminPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import SharedViewPage from './pages/SharedViewPage';
 
 interface RouteConfig {
   name: string;
@@ -10,10 +17,59 @@ interface RouteConfig {
 
 const routes: RouteConfig[] = [
   {
-    name: 'Sample Page',
+    name: 'Dashboard',
     path: '/',
-    element: <SamplePage />
-  }
+    element: (
+      <ProtectedRoute>
+        <DashboardPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    name: 'Recycle Bin',
+    path: '/recycle-bin',
+    element: (
+      <ProtectedRoute>
+        <RecycleBinPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    name: 'Shared Links',
+    path: '/shared',
+    element: (
+      <ProtectedRoute>
+        <SharedLinksPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    name: 'Admin',
+    path: '/admin',
+    element: (
+      <ProtectedRoute>
+        <AdminPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    name: 'Login',
+    path: '/login',
+    element: <LoginPage />,
+    visible: false,
+  },
+  {
+    name: 'Register',
+    path: '/register',
+    element: <RegisterPage />,
+    visible: false,
+  },
+  {
+    name: 'Shared View',
+    path: '/shared/:token',
+    element: <SharedViewPage />,
+    visible: false,
+  },
 ];
 
 export default routes;
