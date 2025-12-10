@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
 import { fileApi } from '@/db/api';
 import type { File } from '@/types';
 import DashboardLayout from '@/components/layout/DashboardLayout';
@@ -13,7 +12,6 @@ import { formatFileSize } from '@/lib/fileUtils';
 import { storageApi } from '@/db/api';
 
 export default function RecentFilesPage() {
-  const { profile } = useAuth();
   const { toast } = useToast();
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(true);

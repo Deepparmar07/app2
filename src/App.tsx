@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './hooks/use-theme';
@@ -31,7 +30,7 @@ function AppContent() {
   );
 }
 
-const App: React.FC = () => {
+function App() {
   return (
     <Router>
       <ThemeProvider>
@@ -42,6 +41,6 @@ const App: React.FC = () => {
       </ThemeProvider>
     </Router>
   );
-};
+}
 
 export default App;
