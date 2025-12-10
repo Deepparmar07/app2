@@ -45,7 +45,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <div className="w-10 h-10 rounded-lg bg-sidebar-primary flex items-center justify-center">
               <HardDrive className="w-6 h-6 text-sidebar-primary-foreground" />
             </div>
-            <span className="text-xl font-bold text-sidebar-foreground">SecureBox</span>
+            <span className="text-xl font-bold text-sidebar-foreground">EpicBox</span>
           </Link>
         </div>
 

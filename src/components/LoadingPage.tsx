@@ -83,7 +83,7 @@ export default function LoadingPage() {
         {/* Brand name with gradient text */}
         <div className="text-center space-y-3">
           <h1 className="text-6xl font-bold text-white drop-shadow-2xl tracking-tight animate-fade-in">
-            SecureBox
+            EpicBox
           </h1>
           <div className="flex items-center justify-center gap-2 text-white/90">
             <Shield className="w-4 h-4" />

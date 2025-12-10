@@ -9,6 +9,8 @@ import RecentFilesPage from './pages/RecentFilesPage';
 import FavoritesPage from './pages/FavoritesPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 import SharedViewPage from './pages/SharedViewPage';
 
 interface RouteConfig {
@@ -92,6 +94,18 @@ const routes: RouteConfig[] = [
     name: 'Register',
     path: '/register',
     element: <RegisterPage />,
+    visible: false,
+  },
+  {
+    name: 'Forgot Password',
+    path: '/forgot-password',
+    element: <ForgotPasswordPage />,
+    visible: false,
+  },
+  {
+    name: 'Reset Password',
+    path: '/reset-password',
+    element: <ResetPasswordPage />,
     visible: false,
   },
   {

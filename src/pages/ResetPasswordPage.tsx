@@ -1,41 +1,64 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
-import { Lock, User, Eye, EyeOff, HardDrive, Shield, Cloud, ArrowRight } from 'lucide-react';
+import { Lock, Eye, EyeOff, HardDrive, Shield, Cloud, CheckCircle2 } from 'lucide-react';
+import { supabase } from '@/db/supabase';
 
-export default function LoginPage() {
-  const [username, setUsername] = useState('');
+export default function ResetPasswordPage() {
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
-  const { signIn } = useAuth();
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [validSession, setValidSession] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  useEffect(() => {
+    // Check if user has a valid recovery session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        setValidSession(true);
+      } else {
+        toast({
+          title: 'Invalid Link',
+          description: 'This password reset link is invalid or has expired',
+          variant: 'destructive',
+        });
+        setTimeout(() => navigate('/forgot-password'), 3000);
+      }
+    });
+  }, [navigate, toast]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!username.trim() || !password) {
+    if (!password || !confirmPassword) {
       toast({
         title: 'Validation Error',
-        description: 'Please enter both username and password',
+        description: 'Please fill in all fields',
         variant: 'destructive',
       });
       return;
     }
 
-    const usernameRegex = /^[a-zA-Z0-9_]+$/;
-    if (!usernameRegex.test(username)) {
+    if (password.length < 6) {
       toast({
-        title: 'Invalid Username',
-        description: 'Username can only contain letters, numbers, and underscores',
+        title: 'Invalid Password',
+        description: 'Password must be at least 6 characters long',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      toast({
+        title: 'Password Mismatch',
+        description: 'Passwords do not match',
         variant: 'destructive',
       });
       return;
@@ -43,26 +66,23 @@ export default function LoginPage() {
 
     setLoading(true);
     try {
-      await signIn(username, password);
-      
-      // Store remember me preference
-      if (rememberMe) {
-        localStorage.setItem('rememberMe', 'true');
-        localStorage.setItem('lastUsername', username);
-      } else {
-        localStorage.removeItem('rememberMe');
-        localStorage.removeItem('lastUsername');
-      }
+      const { error } = await supabase.auth.updateUser({
+        password: password,
+      });
+
+      if (error) throw error;
 
       toast({
-        title: 'Welcome Back!',
-        description: 'Successfully logged in to EpicBox',
+        title: 'Password Updated!',
+        description: 'Your password has been successfully reset',
       });
-      navigate('/');
+
+      // Redirect to login after 2 seconds
+      setTimeout(() => navigate('/login'), 2000);
     } catch (error) {
       toast({
-        title: 'Login Failed',
-        description: error instanceof Error ? error.message : 'Invalid credentials',
+        title: 'Error',
+        description: error instanceof Error ? error.message : 'Failed to reset password',
         variant: 'destructive',
       });
     } finally {
@@ -70,15 +90,33 @@ export default function LoginPage() {
     }
   };
 
-  // Load remembered username on mount
-  useState(() => {
-    const remembered = localStorage.getItem('rememberMe');
-    const lastUser = localStorage.getItem('lastUsername');
-    if (remembered === 'true' && lastUser) {
-      setUsername(lastUser);
-      setRememberMe(true);
-    }
-  });
+  // Password strength indicator
+  const getPasswordStrength = () => {
+    if (!password) return { strength: 0, label: '', color: '' };
+    let strength = 0;
+    if (password.length >= 6) strength++;
+    if (password.length >= 8) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+    if (strength <= 2) return { strength, label: 'Weak', color: 'bg-red-500' };
+    if (strength <= 3) return { strength, label: 'Medium', color: 'bg-yellow-500' };
+    return { strength, label: 'Strong', color: 'bg-green-500' };
+  };
+
+  const passwordStrength = getPasswordStrength();
+
+  if (!validSession) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-primary/30 border-t-primary rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Verifying reset link...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex">
@@ -111,41 +149,41 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Features */}
+            {/* Security Tips */}
             <div className="space-y-6 mt-12">
-              <h2 className="text-3xl font-bold">Secure Cloud Storage for Your Business</h2>
+              <h2 className="text-3xl font-bold">Create a Strong Password</h2>
               <p className="text-white/90 text-lg">
-                Store, manage, and share your files with enterprise-grade security and reliability.
+                Choose a secure password to protect your account and files.
               </p>
 
               <div className="space-y-4 mt-8">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-lg bg-white/10 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
-                    <Shield className="w-5 h-5" />
+                    <CheckCircle2 className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg">End-to-End Encryption</h3>
-                    <p className="text-white/80 text-sm">Your files are encrypted during storage and transmission</p>
+                    <h3 className="font-semibold text-lg">Use 8+ Characters</h3>
+                    <p className="text-white/80 text-sm">Longer passwords are more secure</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-lg bg-white/10 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
-                    <Cloud className="w-5 h-5" />
+                    <CheckCircle2 className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg">Cloud Accessibility</h3>
-                    <p className="text-white/80 text-sm">Access your files from anywhere, anytime</p>
+                    <h3 className="font-semibold text-lg">Mix Characters</h3>
+                    <p className="text-white/80 text-sm">Combine uppercase, lowercase, numbers, and symbols</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-lg bg-white/10 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
-                    <Lock className="w-5 h-5" />
+                    <CheckCircle2 className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg">Advanced Security</h3>
-                    <p className="text-white/80 text-sm">Multi-layer security with role-based access control</p>
+                    <h3 className="font-semibold text-lg">Avoid Common Words</h3>
+                    <p className="text-white/80 text-sm">Don't use dictionary words or personal information</p>
                   </div>
                 </div>
               </div>
@@ -154,7 +192,7 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Right Side - Login Form */}
+      {/* Right Side - Reset Form */}
       <div className="flex-1 flex items-center justify-center p-8 bg-background">
         <div className="w-full max-w-md">
           {/* Mobile Logo */}
@@ -170,49 +208,29 @@ export default function LoginPage() {
 
           <Card className="border-border shadow-lg">
             <CardHeader className="space-y-1 pb-4">
-              <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
+              <CardTitle className="text-2xl font-bold">Set New Password</CardTitle>
               <CardDescription>
-                Sign in to your account to continue
+                Enter your new password below
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Username Field */}
-                <div className="space-y-2">
-                  <Label htmlFor="username" className="text-sm font-medium">
-                    Username
-                  </Label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="username"
-                      type="text"
-                      placeholder="Enter your username"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      className="pl-10 h-11"
-                      disabled={loading}
-                      autoComplete="username"
-                    />
-                  </div>
-                </div>
-
                 {/* Password Field */}
                 <div className="space-y-2">
                   <Label htmlFor="password" className="text-sm font-medium">
-                    Password
+                    New Password
                   </Label>
                   <div className="relative">
                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="password"
                       type={showPassword ? 'text' : 'password'}
-                      placeholder="Enter your password"
+                      placeholder="Enter new password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       className="pl-10 pr-10 h-11"
                       disabled={loading}
-                      autoComplete="current-password"
+                      autoComplete="new-password"
                     />
                     <button
                       type="button"
@@ -227,33 +245,54 @@ export default function LoginPage() {
                       )}
                     </button>
                   </div>
+                  {password && (
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
+                          <div
+                            className={`h-full transition-all ${passwordStrength.color}`}
+                            style={{ width: `${(passwordStrength.strength / 5) * 100}%` }}
+                          />
+                        </div>
+                        <span className="text-xs text-muted-foreground">{passwordStrength.label}</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        At least 6 characters
+                      </p>
+                    </div>
+                  )}
                 </div>
 
-                {/* Remember Me & Forgot Password */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="remember"
-                      checked={rememberMe}
-                      onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                {/* Confirm Password Field */}
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword" className="text-sm font-medium">
+                    Confirm New Password
+                  </Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="confirmPassword"
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      placeholder="Confirm new password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="pl-10 pr-10 h-11"
                       disabled={loading}
+                      autoComplete="new-password"
                     />
-                    <Label
-                      htmlFor="remember"
-                      className="text-sm font-normal cursor-pointer"
-                    >
-                      Remember me
-                    </Label>
-                  </div>
-                  <Link to="/forgot-password">
                     <button
                       type="button"
-                      className="text-sm text-secondary hover:underline font-medium"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                       disabled={loading}
                     >
-                      Forgot password?
+                      {showConfirmPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
                     </button>
-                  </Link>
+                  </div>
                 </div>
 
                 {/* Submit Button */}
@@ -265,42 +304,24 @@ export default function LoginPage() {
                   {loading ? (
                     <span className="flex items-center gap-2">
                       <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
-                      Signing in...
+                      Updating password...
                     </span>
                   ) : (
                     <span className="flex items-center gap-2">
-                      Sign In
-                      <ArrowRight className="w-4 h-4" />
+                      <Lock className="w-4 h-4" />
+                      Reset Password
                     </span>
                   )}
                 </Button>
               </form>
 
-              {/* Divider */}
-              <div className="relative my-6">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-border" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-card px-2 text-muted-foreground">
-                    New to EpicBox?
-                  </span>
-                </div>
+              {/* Security Note */}
+              <div className="mt-6 bg-muted/50 rounded-lg p-4">
+                <p className="text-xs text-muted-foreground">
+                  <strong>Security Tip:</strong> After resetting your password, you'll be signed out of all devices. 
+                  You'll need to sign in again with your new password.
+                </p>
               </div>
-
-              {/* Sign Up Link */}
-              <div className="text-center">
-                <Link to="/register">
-                  <Button variant="outline" className="w-full h-11" disabled={loading}>
-                    Create an Account
-                  </Button>
-                </Link>
-              </div>
-
-              {/* Additional Info */}
-              <p className="text-xs text-center text-muted-foreground mt-6">
-                By signing in, you agree to our Terms of Service and Privacy Policy
-              </p>
             </CardContent>
           </Card>
 

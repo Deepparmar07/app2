@@ -84,7 +84,7 @@ export default function RegisterPage() {
       await signUp(username, password);
       toast({
         title: 'Account Created!',
-        description: 'Welcome to SecureBox. You can now sign in.',
+        description: 'Welcome to EpicBox. You can now sign in.',
       });
       navigate('/login');
     } catch (error) {
@@ -141,7 +141,7 @@ export default function RegisterPage() {
                 <HardDrive className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h1 className="text-4xl font-bold">SecureBox</h1>
+                <h1 className="text-4xl font-bold">EpicBox</h1>
                 <p className="text-white/80 text-sm">Enterprise File Storage</p>
               </div>
             </div>
@@ -198,7 +198,7 @@ export default function RegisterPage() {
               <HardDrive className="w-6 h-6 text-secondary-foreground" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-foreground">SecureBox</h1>
+              <h1 className="text-2xl font-bold text-foreground">EpicBox</h1>
               <p className="text-muted-foreground text-xs">Enterprise File Storage</p>
             </div>
           </div>
@@ -207,7 +207,7 @@ export default function RegisterPage() {
             <CardHeader className="space-y-1 pb-4">
               <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
               <CardDescription>
-                Sign up to start using SecureBox
+                Sign up to start using EpicBox
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -384,7 +384,7 @@ export default function RegisterPage() {
 
           {/* Footer */}
           <div className="mt-8 text-center text-sm text-muted-foreground">
-            <p>© 2025 SecureBox</p>
+            <p>© 2025 EpicBox</p>
           </div>
         </div>
       </div>
