@@ -4,6 +4,7 @@ import DashboardPage from './pages/DashboardPage';
 import RecycleBinPage from './pages/RecycleBinPage';
 import SharedLinksPage from './pages/SharedLinksPage';
 import AdminPage from './pages/AdminPage';
+import SettingsPage from './pages/SettingsPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import SharedViewPage from './pages/SharedViewPage';
@@ -49,6 +50,15 @@ const routes: RouteConfig[] = [
     element: (
       <ProtectedRoute>
         <AdminPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    name: 'Settings',
+    path: '/settings',
+    element: (
+      <ProtectedRoute>
+        <SettingsPage />
       </ProtectedRoute>
     ),
   },

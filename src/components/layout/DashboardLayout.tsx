@@ -66,6 +66,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               Shared Links
             </Button>
           </Link>
+          <Link to="/settings">
+            <Button variant="ghost" className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent">
+              <Settings className="mr-2 h-4 w-4" />
+              Settings
+            </Button>
+          </Link>
           {profile?.role === 'admin' && (
             <Link to="/admin">
               <Button variant="ghost" className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent">

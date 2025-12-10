@@ -52,6 +52,23 @@ SecureBox is a secure cloud-based file storage platform that provides users with
 - Monitor storage usage across users
 - View user registration dates
 
+### ⚙️ Settings
+- **Profile Management**
+  - Update username
+  - View account type and member since date
+  - Manage preferences (auto-compress, notifications)
+- **Security**
+  - Change password
+  - View security status
+  - Account deletion option
+- **Appearance**
+  - Light/Dark theme toggle
+  - Visual theme preview
+- **Storage**
+  - Detailed storage usage statistics
+  - Storage alerts when running low
+  - File and folder count tracking
+
 ## Technology Stack
 
 ### Frontend
@@ -104,6 +121,7 @@ src/
 │   ├── LoginPage.tsx               # Login form
 │   ├── RecycleBinPage.tsx          # Deleted files
 │   ├── RegisterPage.tsx            # Registration form
+│   ├── SettingsPage.tsx            # User settings
 │   ├── SharedLinksPage.tsx         # Manage shared links
 │   └── SharedViewPage.tsx          # Public share view
 ├── types/
@@ -161,6 +179,15 @@ src/
 3. Choose access permissions
 4. Generate and copy the share link
 5. Share the link with others
+
+### Managing Settings
+1. Click "Settings" in the sidebar
+2. Navigate through tabs:
+   - **Profile**: Update username and preferences
+   - **Security**: Change password and manage account
+   - **Appearance**: Switch between light/dark themes
+   - **Storage**: Monitor storage usage and statistics
+3. Changes are saved automatically or with confirmation
 
 ### Storage Limits
 - Default: 5GB per user
