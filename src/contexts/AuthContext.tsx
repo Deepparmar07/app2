@@ -8,6 +8,7 @@ interface AuthContextType {
   user: User | null;
   profile: Profile | null;
   loading: boolean;
+  initializing: boolean;
   signIn: (username: string, password: string) => Promise<void>;
   signUp: (username: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
@@ -20,6 +21,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [initializing, setInitializing] = useState(true);
 
   const refreshProfile = async () => {
     try {
@@ -37,6 +39,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         refreshProfile();
       }
       setLoading(false);
+      
+      setTimeout(() => {
+        setInitializing(false);
+      }, 1500);
     });
 
     const {
@@ -82,6 +88,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         user,
         profile,
         loading,
+        initializing,
         signIn,
         signUp,
         signOut,

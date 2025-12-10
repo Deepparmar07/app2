@@ -1,52 +1,60 @@
-# Secure File Storage System Requirements Document
-
+# SecureBox File Storage System Requirements Document\n
 ## 1. Application Overview
 
 ### 1.1 Application Name
 SecureBox File Storage System
-
-### 1.2 Application Description
-A secure cloud-based file storage platform similar to TeraBox, providing users with safe and reliable file storage, management, and sharing capabilities.
-
+\n### 1.2 Application Description
+A secure cloud-based file storage platform similar to TeraBox, providing users with safe and reliable file storage, management, and sharing capabilities.\n
 ## 2. Core Features
-\n### 2.1 File Management
-- File upload and download\n- Folder creation and organization
-- File preview (support for commondocument, image, and video formats)
-- File search functionality
+\n### 2.1 Startup Loading Page
+- Display application logo and name with smooth animation
+- Show loading progress indicator
+- Brief tagline highlighting security and reliability
+- Smooth transition to main interface after loading completes
+- Modern and professional visual presentation similar to Epic Box style
+
+### 2.2 File Management
+- File upload and download\n- Folder creation and organization\n- File preview (support for common document, image, and video formats)\n- File search functionality
 - File deletion and recovery (recycle bin)
-\n### 2.2 Security Features
+
+### 2.3 Security Features
 - File encryption during storage and transmission
 - Secure user authentication
 - Privacy protection for stored files
-\n### 2.3 User Account System
+
+### 2.4 User Account System
 - User registration and login
-- Personal storage space allocation
-- Account settings management
-\n### 2.4 File Sharing
+- Personal storage space allocation\n- Account settings management
+\n### 2.5 File Sharing
 - Generate shareable links for files or folders
-- Set access permissions (view-only or download)\n\n### 2.5 Storage Management
+- Set access permissions (view-only or download)
+
+### 2.6 Storage Management
 - Display storage usage statistics
 - Storage capacity management
-\n## 3. Supported File Types
+
+## 3. Supported File Types
 - Documents (PDF, DOC, DOCX, TXT, etc.)
 - Images (JPG, PNG, GIF, etc.)
 - Videos (MP4, AVI, MOV, etc.)
-- Audio files (MP3, WAV, etc.)\n- Compressed files (ZIP, RAR, etc.)
+- Audio files (MP3, WAV, etc.)
+- Compressed files (ZIP, RAR, etc.)
 - Other common file formats
 
 ## 4. Design Style
-
-### 4.1 Color Scheme
+\n### 4.1 Color Scheme
 - Primary color: Deep blue (#2C3E50) representing security and trust
 - Secondary color: Light blue (#3498DB) for interactive elements
 - Background: Clean white (#FFFFFF) with subtle gray accents (#F5F6FA)
 
-### 4.2 Visual Details
-- Rounded corners:8px for cards and buttons, creating a modern and friendly feel
+### 4.2 Visual Details\n- Rounded corners: 8px for cards and buttons, creating a modern and friendly feel
 - Icons: Minimalist line-style icons for file types and actions
 - Shadows: Subtle elevation shadows (02px 8px rgba(0,0,0,0.1)) for depth
-\n### 4.3 Layout
+- Loading animations: Smooth fade-in effects and progress indicators
+
+### 4.3 Layout
 - Card-based layout for file display with grid view and list view options
 - Left sidebar for navigation (folders, recent files, shared items)
 - Top header with search bar and user account access
 - Responsive design for seamless experience across devices
+- Full-screen startup loading page with centered branding elements
