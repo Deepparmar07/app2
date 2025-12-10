@@ -13,6 +13,8 @@ import {
   Shield,
   Moon,
   Sun,
+  Clock,
+  Star,
 } from 'lucide-react';
 import { useTheme } from '@/hooks/use-theme';
 import { Progress } from '@/components/ui/progress';
@@ -52,6 +54,18 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <Button variant="ghost" className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent">
               <Home className="mr-2 h-4 w-4" />
               My Files
+            </Button>
+          </Link>
+          <Link to="/recent">
+            <Button variant="ghost" className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent">
+              <Clock className="mr-2 h-4 w-4" />
+              Recent
+            </Button>
+          </Link>
+          <Link to="/favorites">
+            <Button variant="ghost" className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent">
+              <Star className="mr-2 h-4 w-4" />
+              Favorites
             </Button>
           </Link>
           <Link to="/recycle-bin">

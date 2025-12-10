@@ -5,6 +5,8 @@ import RecycleBinPage from './pages/RecycleBinPage';
 import SharedLinksPage from './pages/SharedLinksPage';
 import AdminPage from './pages/AdminPage';
 import SettingsPage from './pages/SettingsPage';
+import RecentFilesPage from './pages/RecentFilesPage';
+import FavoritesPage from './pages/FavoritesPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import SharedViewPage from './pages/SharedViewPage';
@@ -32,6 +34,24 @@ const routes: RouteConfig[] = [
     element: (
       <ProtectedRoute>
         <RecycleBinPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    name: 'Recent Files',
+    path: '/recent',
+    element: (
+      <ProtectedRoute>
+        <RecentFilesPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    name: 'Favorites',
+    path: '/favorites',
+    element: (
+      <ProtectedRoute>
+        <FavoritesPage />
       </ProtectedRoute>
     ),
   },

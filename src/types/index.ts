@@ -37,6 +37,8 @@ export interface File {
   deleted_at: string | null;
   created_at: string;
   updated_at: string;
+  last_accessed_at: string | null;
+  is_favorite: boolean;
 }
 
 export interface SharedLink {
@@ -48,6 +50,19 @@ export interface SharedLink {
   can_download: boolean;
   expires_at: string | null;
   created_at: string;
+  password: string | null;
+  view_count: number;
+  download_count: number;
+  last_accessed_at: string | null;
+}
+
+export interface ShareAccessLog {
+  id: string;
+  share_id: string;
+  access_type: 'view' | 'download';
+  accessed_at: string;
+  ip_address: string | null;
+  user_agent: string | null;
 }
 
 export interface FileWithOwner extends File {
@@ -74,4 +89,21 @@ export interface UploadProgress {
   progress: number;
   status: 'uploading' | 'success' | 'error';
   error?: string;
+}
+
+export type SortField = 'name' | 'created_at' | 'size' | 'type';
+export type SortDirection = 'asc' | 'desc';
+
+export interface SortOption {
+  field: SortField;
+  direction: SortDirection;
+  label: string;
+}
+
+export interface FileAction {
+  id: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  onClick: () => void;
+  variant?: 'default' | 'destructive';
 }

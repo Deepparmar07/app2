@@ -239,6 +239,84 @@ export const fileApi = {
     if (error) throw error;
     return Array.isArray(data) ? data : [];
   },
+
+  async updateFile(id: string, updates: Partial<File>): Promise<File | null> {
+    const { data, error } = await supabase
+      .from('files')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select()
+      .maybeSingle();
+
+    if (error) throw error;
+    return data;
+  },
+
+  async toggleFavorite(id: string, isFavorite: boolean): Promise<File | null> {
+    const { data, error } = await supabase
+      .from('files')
+      .update({ is_favorite: isFavorite })
+      .eq('id', id)
+      .select()
+      .maybeSingle();
+
+    if (error) throw error;
+    return data;
+  },
+
+  async getFavoriteFiles(): Promise<File[]> {
+    const { data, error } = await supabase
+      .from('files')
+      .select('*')
+      .eq('is_favorite', true)
+      .eq('is_deleted', false)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    return Array.isArray(data) ? data : [];
+  },
+
+  async getRecentFiles(limit = 20): Promise<File[]> {
+    const { data, error } = await supabase
+      .from('files')
+      .select('*')
+      .eq('is_deleted', false)
+      .not('last_accessed_at', 'is', null)
+      .order('last_accessed_at', { ascending: false })
+      .limit(limit);
+
+    if (error) throw error;
+    return Array.isArray(data) ? data : [];
+  },
+
+  async updateFileAccess(id: string): Promise<void> {
+    const { error } = await supabase.rpc('update_file_access', {
+      file_uuid: id,
+    });
+
+    if (error) throw error;
+  },
+
+  async moveFiles(fileIds: string[], targetFolderId: string | null): Promise<void> {
+    const { error } = await supabase
+      .from('files')
+      .update({ folder_id: targetFolderId, updated_at: new Date().toISOString() })
+      .in('id', fileIds);
+
+    if (error) throw error;
+  },
+
+  async renameFile(id: string, newName: string): Promise<File | null> {
+    const { data, error } = await supabase
+      .from('files')
+      .update({ name: newName, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select()
+      .maybeSingle();
+
+    if (error) throw error;
+    return data;
+  },
 };
 
 export const sharedLinkApi = {
@@ -247,7 +325,8 @@ export const sharedLinkApi = {
     folderId: string | null,
     ownerId: string,
     canDownload = true,
-    expiresAt: string | null = null
+    expiresAt: string | null = null,
+    password: string | null = null
   ): Promise<SharedLink | null> {
     const shareToken = crypto.randomUUID();
 
@@ -260,6 +339,7 @@ export const sharedLinkApi = {
         share_token: shareToken,
         can_download: canDownload,
         expires_at: expiresAt,
+        password,
       })
       .select()
       .maybeSingle();
@@ -295,6 +375,38 @@ export const sharedLinkApi = {
       .from('shared_links')
       .delete()
       .eq('id', id);
+
+    if (error) throw error;
+  },
+
+  async incrementViewCount(shareId: string): Promise<void> {
+    const { error } = await supabase.rpc('increment_share_view', {
+      share_uuid: shareId,
+    });
+
+    if (error) throw error;
+  },
+
+  async incrementDownloadCount(shareId: string): Promise<void> {
+    const { error } = await supabase.rpc('increment_share_download', {
+      share_uuid: shareId,
+    });
+
+    if (error) throw error;
+  },
+
+  async logShareAccess(
+    shareId: string,
+    accessType: 'view' | 'download',
+    ipAddress?: string,
+    userAgent?: string
+  ): Promise<void> {
+    const { error } = await supabase.rpc('log_share_access', {
+      share_uuid: shareId,
+      access_type_param: accessType,
+      ip_param: ipAddress || null,
+      user_agent_param: userAgent || null,
+    });
 
     if (error) throw error;
   },
