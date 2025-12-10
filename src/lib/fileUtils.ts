@@ -29,6 +29,44 @@ export function isVideoFile(mimeType: string): boolean {
   return mimeType.startsWith('video/');
 }
 
+export function isAudioFile(mimeType: string): boolean {
+  return mimeType.startsWith('audio/');
+}
+
+export function isDocumentFile(mimeType: string): boolean {
+  return (
+    mimeType.includes('pdf') ||
+    mimeType.includes('word') ||
+    mimeType.includes('document') ||
+    mimeType.includes('excel') ||
+    mimeType.includes('spreadsheet') ||
+    mimeType.includes('powerpoint') ||
+    mimeType.includes('presentation') ||
+    mimeType.includes('text')
+  );
+}
+
+export function isArchiveFile(mimeType: string): boolean {
+  return (
+    mimeType.includes('zip') ||
+    mimeType.includes('rar') ||
+    mimeType.includes('7z') ||
+    mimeType.includes('tar') ||
+    mimeType.includes('gz')
+  );
+}
+
+export type FileCategory = 'all' | 'photos' | 'videos' | 'documents' | 'audio' | 'archives' | 'others';
+
+export function getFileCategory(mimeType: string): FileCategory {
+  if (isImageFile(mimeType)) return 'photos';
+  if (isVideoFile(mimeType)) return 'videos';
+  if (isAudioFile(mimeType)) return 'audio';
+  if (isDocumentFile(mimeType)) return 'documents';
+  if (isArchiveFile(mimeType)) return 'archives';
+  return 'others';
+}
+
 export function isPreviewableFile(mimeType: string): boolean {
   return isImageFile(mimeType) || isVideoFile(mimeType) || mimeType === 'application/pdf';
 }

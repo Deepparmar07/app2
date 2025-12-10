@@ -13,21 +13,34 @@ import CreateFolderDialog from '@/components/files/CreateFolderDialog';
 import FilePreviewDialog from '@/components/files/FilePreviewDialog';
 import ShareDialog from '@/components/files/ShareDialog';
 import { Button } from '@/components/ui/button';
-import { Grid3x3, List, Search } from 'lucide-react';
+import { Grid3x3, List, Search, Image, Video, FileText, Music, Archive, FileIcon } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { getFileCategory, type FileCategory } from '@/lib/fileUtils';
 
 export default function DashboardPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentFolderId = searchParams.get('folder');
   const [files, setFiles] = useState<File[]>([]);
   const [folders, setFolders] = useState<Folder[]>([]);
+  const [allFiles, setAllFiles] = useState<File[]>([]);
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [shareItem, setShareItem] = useState<{ type: 'file' | 'folder'; id: string } | null>(null);
+  const [activeFilter, setActiveFilter] = useState<FileCategory>('all');
   const { profile } = useAuth();
   const { toast } = useToast();
+
+  const fileCategories = [
+    { id: 'all' as FileCategory, label: 'All Files', icon: FileIcon },
+    { id: 'photos' as FileCategory, label: 'Photos', icon: Image },
+    { id: 'videos' as FileCategory, label: 'Videos', icon: Video },
+    { id: 'documents' as FileCategory, label: 'Documents', icon: FileText },
+    { id: 'audio' as FileCategory, label: 'Audio', icon: Music },
+    { id: 'archives' as FileCategory, label: 'Archives', icon: Archive },
+    { id: 'others' as FileCategory, label: 'Others', icon: FileIcon },
+  ];
 
   const loadData = async () => {
     if (!profile) return;
@@ -38,6 +51,7 @@ export default function DashboardPage() {
         fileApi.getFiles(currentFolderId),
         folderApi.getFolders(currentFolderId),
       ]);
+      setAllFiles(filesData);
       setFiles(filesData);
       setFolders(foldersData);
     } catch (error) {
@@ -53,7 +67,17 @@ export default function DashboardPage() {
 
   useEffect(() => {
     loadData();
+    setActiveFilter('all');
   }, [currentFolderId, profile]);
+
+  useEffect(() => {
+    if (activeFilter === 'all') {
+      setFiles(allFiles);
+    } else {
+      const filtered = allFiles.filter(file => getFileCategory(file.type) === activeFilter);
+      setFiles(filtered);
+    }
+  }, [activeFilter, allFiles]);
 
   const handleSearch = async () => {
     if (!searchQuery.trim()) {
@@ -64,8 +88,10 @@ export default function DashboardPage() {
     setLoading(true);
     try {
       const results = await fileApi.searchFiles(searchQuery);
+      setAllFiles(results);
       setFiles(results);
       setFolders([]);
+      setActiveFilter('all');
     } catch (error) {
       toast({
         title: 'Error',
@@ -173,6 +199,40 @@ export default function DashboardPage() {
             >
               <List className="h-4 w-4" />
             </Button>
+          </div>
+        </div>
+
+        {/* File Type Filters */}
+        <div className="border-b border-border">
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
+            {fileCategories.map((category) => {
+              const Icon = category.icon;
+              const count = category.id === 'all' 
+                ? allFiles.length 
+                : allFiles.filter(f => getFileCategory(f.type) === category.id).length;
+              
+              return (
+                <Button
+                  key={category.id}
+                  variant={activeFilter === category.id ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setActiveFilter(category.id)}
+                  className="flex items-center gap-2 whitespace-nowrap"
+                >
+                  <Icon className="h-4 w-4" />
+                  <span>{category.label}</span>
+                  {count > 0 && (
+                    <span className={`text-xs px-1.5 py-0.5 rounded-full ${
+                      activeFilter === category.id 
+                        ? 'bg-primary-foreground/20' 
+                        : 'bg-muted'
+                    }`}>
+                      {count}
+                    </span>
+                  )}
+                </Button>
+              );
+            })}
           </div>
         </div>
 

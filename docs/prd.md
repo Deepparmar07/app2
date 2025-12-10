@@ -16,40 +16,47 @@ A secure cloud-based file storage platform similar to TeraBox, providing users w
 - Micro-interactions: Floating particle effects in background suggesting data encryption
 - Loading spinner with custom-designed circular animation matching brand colors
 - Skeleton screen preview showing glimpse of main interface layout during final loading phase
-- Smooth fade-out transition (0.6s ease-out) to main dashboard\n- Optimized loading sequence: Logo appears first (0.3s) → Tagline fades in (0.5s) → Progress bar animates (1-3s) → Interface transition\n- Responsive design ensuring consistent premium appearance across all device sizes
+- Smooth fade-out transition (0.6s ease-out) to main dashboard
+- Optimized loading sequence: Logo appears first (0.3s) → Tagline fades in (0.5s) → Progress bar animates (1-3s) → Interface transition
+- Responsive design ensuring consistent premium appearance across all device sizes
 - Preload critical assets to minimize actual loading time while maintaining visual elegance
 
 ### 2.2 File Management
-- File upload and download\n- Folder creation and organization\n- File preview (support for common document, image, and video formats)\n- File search functionality
+- File upload and download
+- Folder creation and organization
+- File preview (support for common document, image, and video formats)
+- File search functionality
 - File deletion and recovery (recycle bin)
 - Batch operations (select multiple files for move, delete, or download)
 - File sorting options (by name, date, size, type)
-\n### 2.3 Security Features
-- File encryption during storage and transmission
-- Secure user authentication
+- **Quick access categories: Photos, Videos, Documents, Music, and Other file types with dedicated navigation entries**
+- **Automatic file categorization based on file type for easy browsing**
+
+### 2.3 Security Features
+- File encryption during storage and transmission\n- Secure user authentication
 - Privacy protection for stored files
 - Password-protected shared links
 
 ### 2.4 User Account System
 - User registration and login
 - Personal storage space allocation
-- Account settings management
-- Multiple login methods (email, phone number, social media)
-
-### 2.5 File Sharing
+- Account settings management\n- Multiple login methods (email, phone number, social media)
+\n### 2.5 File Sharing
 - Generate shareable links for files or folders
 - Set access permissions (view-only or download)
 - Set expiration dates for shared links
 - Share via QR code
-- Track sharing activity and download statistics\n
+- Track sharing activity and download statistics
+
 ### 2.6 Storage Management
-- Display storage usage statistics
-- Storage capacity management
-- Storage plan upgrade options\n- Earn free storage through referrals or activities
+- Display storage usage statistics\n- Storage capacity management
+- Storage plan upgrade options
+- Earn free storage through referrals or activities
 
 ### 2.7 Auto Backup
 - Automatic backup of photos and videos from mobile devices
-- Scheduled backup for selected folders\n- Backup history and restore options
+- Scheduled backup for selected folders
+- Backup history and restore options
 - Smart backup (only when connected to WiFi)
 
 ### 2.8 Offline Download
@@ -57,21 +64,23 @@ A secure cloud-based file storage platform similar to TeraBox, providing users w
 - Download files directly to cloud storage
 - Support for torrent files
 - Download queue management
-- Download speed control
-
+- Download speed control\n
 ### 2.9 Multi-Device Sync
 - Real-time synchronization across devices
 - Access files from web, mobile, and desktop apps
-- Sync status indicators\n- Selective sync options
+- Sync status indicators
+- Selective sync options
 
 ### 2.10 Smart Photo Album
-- Automatic photo categorization by date and location\n- Face recognition for people grouping
+- Automatic photo categorization by date and location
+- Face recognition for people grouping
 - Smart search for photos by content
 - Create and share photo albums
 - Slideshow mode
-
-### 2.11 Video Player
-- Built-in video player with streaming support\n- Playback speed control\n- Subtitle support
+\n### 2.11 Video Player
+- Built-in video player with streaming support
+- Playback speed control
+- Subtitle support
 - Resume playback from last position
 - Video quality selection
 
@@ -80,25 +89,27 @@ A secure cloud-based file storage platform similar to TeraBox, providing users w
 - Auto edge detection and enhancement
 - Convert scans to PDF
 - OCR text recognition
-
-### 2.13 Recent Files
-- Quick access to recently viewed or modified files\n- Filter by file type
+\n### 2.13 Recent Files
+- Quick access to recently viewed or modified files
+- Filter by file type
 - Clear recent history option
-\n### 2.14 Favorites
+
+### 2.14 Favorites
 - Mark important files or folders as favorites
 - Quick access to favorite items
 - Organize favorites with custom tags
 
 ### 2.15 Settings Features
-- Account settings: Update profile information, change password, email preferences\n- Privacy settings: Control file visibility and sharing defaults
-- Notification settings: Manage email and in-app notifications
-- Storage settings: View storage plans and upgrade options
+- Account settings: Update profile information, change password, email preferences
+- Privacy settings: Control file visibility and sharing defaults
+- Notification settings: Manage email and in-app notifications\n- Storage settings: View storage plans and upgrade options
 - Security settings: Two-factor authentication, login history, device management
 - Display settings: Theme selection (light/dark mode), language preferences
 - General settings: Default upload folder, file sorting preferences
 - Backup settings: Configure auto backup rules and schedules
 - Download settings: Set download location and speed limits
-\n## 3. Supported File Types
+
+## 3. Supported File Types
 - Documents (PDF, DOC, DOCX, TXT, etc.)
 - Images (JPG, PNG, GIF, etc.)\n- Videos (MP4, AVI, MOV, etc.)\n- Audio files (MP3, WAV, etc.)
 - Compressed files (ZIP, RAR, etc.)
@@ -120,6 +131,8 @@ A secure cloud-based file storage platform similar to TeraBox, providing users w
 
 ### 4.3 Layout
 - Card-based layout for file display with grid view and list view options
-- Left sidebar for navigation (folders, recent files, shared items, favorites)\n- Top header with search bar and user account access
-- Responsive design for seamless experience across devices\n- Full-screen startup loading page with centered branding elements
+- Left sidebar for navigation (folders, recent files, shared items, favorites, **Photos, Videos, Documents, Music, Other**)
+- Top header with search bar and user account access
+- Responsive design for seamless experience across devices
+- Full-screen startup loading page with centered branding elements
 - Bottom navigation bar for mobile app (Home, Photos, Files, Me)
