@@ -72,8 +72,6 @@ export default function UploadButton({ currentFolderId, onUploadComplete }: Uplo
           storage_path: storagePath,
           folder_id: currentFolderId,
           owner_id: profile.id,
-          last_accessed_at: null,
-          is_favorite: false,
         });
 
         successCount++;

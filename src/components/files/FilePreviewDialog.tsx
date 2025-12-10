@@ -22,7 +22,7 @@ export default function FilePreviewDialog({ file, open, onClose }: FilePreviewDi
 
   const handleDownload = async () => {
     try {
-      const blob = await storageApi.downloadFile(file.storage_path);
+      const blob = await storageApi.downloadFile(file.storage_path, file.type);
       downloadBlob(blob, file.name);
       toast({
         title: 'Success',

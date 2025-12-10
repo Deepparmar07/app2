@@ -37,8 +37,6 @@ export interface File {
   deleted_at: string | null;
   created_at: string;
   updated_at: string;
-  last_accessed_at: string | null;
-  is_favorite: boolean;
 }
 
 export interface SharedLink {

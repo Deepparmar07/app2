@@ -58,7 +58,7 @@ export default function SharedViewPage() {
     if (!file || !shareLink?.can_download) return;
 
     try {
-      const blob = await storageApi.downloadFile(file.storage_path);
+      const blob = await storageApi.downloadFile(file.storage_path, file.type);
       downloadBlob(blob, file.name);
       toast({
         title: 'Success',

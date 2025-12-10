@@ -70,11 +70,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signUp = async (username: string, password: string) => {
     const email = `${username}@miaoda.com`;
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
     });
     if (error) throw error;
+    
+    // Create profile immediately after signup
+    if (data.user) {
+      try {
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .insert({
+            id: data.user.id,
+            username: username.toLowerCase(),
+            role: 'user',
+          });
+        if (profileError) {
+          console.error('Profile creation error:', profileError);
+          throw new Error(`Failed to create profile: ${profileError.message}`);
+        }
+      } catch (err) {
+        console.error('Error creating profile during signup:', err);
+        // Don't throw - user account is created, just profile failed
+        // They can retry after email confirmation
+      }
+    }
   };
 
   const signOut = async () => {

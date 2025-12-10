@@ -3,18 +3,17 @@
     import type { Plugin, ConfigEnv } from "vite";
     import tailwindcss from "tailwindcss";
     import autoprefixer from "autoprefixer";
-    import fs from "fs/promises";
-    import path from "path";
-    import {
-      makeTagger,
-      injectedGuiListenerPlugin,
-      injectOnErrorPlugin
-    } from "miaoda-sc-plugin";
-
-    const env: ConfigEnv = { command: "serve", mode: "development" };
-    const configFile = path.resolve(__dirname, "vite.config.ts");
-    const result = await loadConfigFromFile(env, configFile);
-    const userConfig = result?.config;
+    // import path from "path"; // Removed because 'path' is not available in Vite's ESM environment
+        import {
+          makeTagger,
+          injectedGuiListenerPlugin,
+          injectOnErrorPlugin
+        } from "miaoda-sc-plugin";
+    
+        const env: ConfigEnv = { command: "serve", mode: "development" };
+        const configFile = new URL('./vite.config.ts', import.meta.url).pathname;
+        const result = await loadConfigFromFile(env, configFile);
+        const userConfig = result?.config;
 
     export default defineConfig({
       ...userConfig,
@@ -33,7 +32,7 @@
 
     // 包装原来的 send 方法
     const _send = server.ws.send;
-    server.ws.send = (payload) => {
+    server.ws.send = (payload: any) => {
       if (hmrEnabled) {
         return _send.call(server.ws, payload);
       } else {

@@ -1,4 +1,4 @@
-# SecureBox - Complete Feature List
+# EpicBox - Complete Feature List
 
 ## 🎨 User Interface
 

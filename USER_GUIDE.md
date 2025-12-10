@@ -1,4 +1,4 @@
-# SecureBox User Guide
+# EpicBox User Guide
 
 ## Getting Started
 

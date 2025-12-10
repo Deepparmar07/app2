@@ -1,5 +1,9 @@
 import { supabase } from './supabase';
+import { createStorageManager } from '@/lib/storageProviders';
 import type { Profile, Folder, File, SharedLink } from '@/types';
+
+// Initialize storage manager with configured provider (Supabase or S3)
+const storageManager = createStorageManager(supabase);
 
 export const profileApi = {
   async getCurrentProfile(): Promise<Profile | null> {
@@ -418,43 +422,22 @@ export const storageApi = {
     userId: string,
     onProgress?: (progress: number) => void
   ): Promise<string> {
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
-    const filePath = `${userId}/${fileName}`;
-
-    const { error } = await supabase.storage
-      .from('app-84kgjmh9j8qp_files')
-      .upload(filePath, file, {
-        cacheControl: '3600',
-        upsert: false,
-      });
-
-    if (error) throw error;
-    return filePath;
+    return await storageManager.uploadFile(file, userId);
   },
 
-  async downloadFile(path: string): Promise<Blob> {
-    const { data, error } = await supabase.storage
-      .from('app-84kgjmh9j8qp_files')
-      .download(path);
-
-    if (error) throw error;
-    return data;
+  async downloadFile(path: string, fileType: string): Promise<Blob> {
+    return await storageManager.downloadFile(path, fileType);
   },
 
   async deleteFile(path: string): Promise<void> {
-    const { error } = await supabase.storage
-      .from('app-84kgjmh9j8qp_files')
-      .remove([path]);
-
-    if (error) throw error;
+    await storageManager.deleteFile(path);
   },
 
   getPublicUrl(path: string): string {
-    const { data } = supabase.storage
-      .from('app-84kgjmh9j8qp_files')
-      .getPublicUrl(path);
+    return storageManager.getPublicUrl(path) || '';
+  },
 
-    return data.publicUrl;
+  getStorageProvider(): string {
+    return storageManager.getProviderName();
   },
 };

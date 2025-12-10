@@ -1,7 +1,7 @@
-# SecureBox File Storage System
+# EpicBox File Storage System
 
 ## Overview
-SecureBox is a secure cloud-based file storage platform that provides users with safe and reliable file storage, management, and sharing capabilities. Built with modern web technologies and featuring a beautiful deep blue design theme.
+EpicBox is a secure cloud-based file storage platform that provides users with safe and reliable file storage, management, and sharing capabilities. Built with modern web technologies and featuring a beautiful deep blue design theme.
 
 ## Features
 

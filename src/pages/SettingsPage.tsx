@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/hooks/use-theme';
-import { profileApi } from '@/db/api';
+import { profileApi, storageApi } from '@/db/api';
 import { supabase } from '@/db/supabase';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Button } from '@/components/ui/button';
@@ -36,6 +36,7 @@ export default function SettingsPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [storageProvider, setStorageProvider] = useState('Loading...');
 
   const [preferences, setPreferences] = useState({
     defaultView: 'grid',
@@ -44,6 +45,16 @@ export default function SettingsPage() {
     emailNotifications: true,
     storageAlerts: true,
   });
+
+  useEffect(() => {
+    // Get active storage provider
+    try {
+      const provider = storageApi.getStorageProvider();
+      setStorageProvider(provider);
+    } catch (error) {
+      setStorageProvider('Unknown');
+    }
+  }, []);
 
   const handleUpdateUsername = async () => {
     if (!profile || !username.trim()) return;
@@ -422,6 +433,40 @@ export default function SettingsPage() {
           </TabsContent>
 
           <TabsContent value="storage" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Storage Provider</CardTitle>
+                <CardDescription>
+                  Your active cloud storage backend
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <HardDrive className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <p className="font-medium">{storageProvider}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {storageProvider === 'AWS S3' && 'Encrypted files stored in Amazon S3'}
+                        {storageProvider === 'Supabase' && 'Encrypted files stored in Supabase Storage'}
+                        {storageProvider === 'Loading...' && 'Initializing storage...'}
+                        {!['AWS S3', 'Supabase', 'Loading...'].includes(storageProvider) && 'Custom storage provider'}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="px-3 py-1 bg-green-500/10 text-green-600 dark:text-green-400 rounded-full text-xs font-medium">
+                    Active
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground mt-3">
+                  All files are encrypted with AES-256 before upload. 
+                  To change providers, update VITE_STORAGE_PROVIDER in .env file.
+                </p>
+              </CardContent>
+            </Card>
+
             <Card>
               <CardHeader>
                 <CardTitle>Storage Usage</CardTitle>

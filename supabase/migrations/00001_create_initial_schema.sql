@@ -242,6 +242,10 @@ CREATE POLICY "Admins have full access to profiles" ON profiles
   FOR ALL TO authenticated
   USING (is_admin(auth.uid()));
 
+CREATE POLICY "Users can insert own profile" ON profiles
+  FOR INSERT TO authenticated
+  WITH CHECK (id = auth.uid());
+
 CREATE POLICY "Users can view own profile" ON profiles
   FOR SELECT TO authenticated
   USING (auth.uid() = id);
