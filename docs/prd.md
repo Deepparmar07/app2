@@ -30,42 +30,55 @@ A secure cloud-based file storage platform similar to TeraBox, providing users w
 - Batch operations (select multiple files for move, delete, or download)
 - File sorting options (by name, date, size, type)
 - **Quick access categories: Photos, Videos, Documents, Music, and Other file types with dedicated navigation entries**
-- **Automatic file categorization based on file type for easy browsing**
-
+- **Automatic file categorization based on file type for easy browsing**\n
 ### 2.3 Security Features
-- File encryption during storage and transmission\n- Secure user authentication
+- File encryption during storage and transmission
+- Secure user authentication
 - Privacy protection for stored files
 - Password-protected shared links
 
 ### 2.4 User Account System
-- User registration and login
-- Personal storage space allocation
-- Account settings management\n- Multiple login methods (email, phone number, social media)
-\n### 2.5 File Sharing
+- User registration and login\n- Personal storage space allocation
+- Account settings management
+- **Multiple login methods:**
+  - **Email login: Enter email address and password**
+  - **Phone number login: Enter phone number and receive SMS verification code**
+  - **Google account login: One-click sign in via OSS Google login integration**
+  - **Facebook account login: One-click sign in via Facebook OAuth**
+  - **Apple ID login: Sign in with Apple for iOS users**
+  - **Guest mode: Limited access without registration for file preview via shared links**
+- **Login page features:**
+  - **Clean interface with application logo at top**
+  - **Tabbed navigation to switch between different login methods**
+  - **'Remember me' checkbox for persistent login**
+  - **'Forgot password' link with email/SMS recovery options**
+  - **'Sign up' button prominently displayed for new users**
+  - **Social login buttons with recognizable brand icons**
+  - **Auto-fill support for saved credentials**
+  - **Two-factor authentication option for enhanced security**
+
+### 2.5 File Sharing
 - Generate shareable links for files or folders
-- Set access permissions (view-only or download)
-- Set expiration dates for shared links
+- Set access permissions (view-only or download)\n- Set expiration dates for shared links
 - Share via QR code
 - Track sharing activity and download statistics
 
 ### 2.6 Storage Management
-- Display storage usage statistics\n- Storage capacity management
+- Display storage usage statistics
+- Storage capacity management
 - Storage plan upgrade options
-- Earn free storage through referrals or activities
-
+- Earn free storage through referrals or activities\n
 ### 2.7 Auto Backup
 - Automatic backup of photos and videos from mobile devices
 - Scheduled backup for selected folders
 - Backup history and restore options
-- Smart backup (only when connected to WiFi)
-
+- Smart backup (only when connected to WiFi)\n
 ### 2.8 Offline Download
 - Add download tasks via URL or magnet links
 - Download files directly to cloud storage
 - Support for torrent files
-- Download queue management
-- Download speed control\n
-### 2.9 Multi-Device Sync
+- Download queue management\n- Download speed control
+\n### 2.9 Multi-Device Sync
 - Real-time synchronization across devices
 - Access files from web, mobile, and desktop apps
 - Sync status indicators
@@ -77,32 +90,31 @@ A secure cloud-based file storage platform similar to TeraBox, providing users w
 - Smart search for photos by content
 - Create and share photo albums
 - Slideshow mode
-\n### 2.11 Video Player
-- Built-in video player with streaming support
+
+### 2.11 Video Player\n- Built-in video player with streaming support
 - Playback speed control
 - Subtitle support
 - Resume playback from last position
-- Video quality selection
-
+- Video quality selection\n
 ### 2.12 Document Scanner
 - Scan documents using device camera
 - Auto edge detection and enhancement
 - Convert scans to PDF
 - OCR text recognition
-\n### 2.13 Recent Files
-- Quick access to recently viewed or modified files
+
+### 2.13 Recent Files\n- Quick access to recently viewed or modified files
 - Filter by file type
 - Clear recent history option
 
 ### 2.14 Favorites
 - Mark important files or folders as favorites
 - Quick access to favorite items
-- Organize favorites with custom tags
-
+- Organize favorites with custom tags\n
 ### 2.15 Settings Features
 - Account settings: Update profile information, change password, email preferences
 - Privacy settings: Control file visibility and sharing defaults
-- Notification settings: Manage email and in-app notifications\n- Storage settings: View storage plans and upgrade options
+- Notification settings: Manage email and in-app notifications
+- Storage settings: View storage plans and upgrade options
 - Security settings: Two-factor authentication, login history, device management
 - Display settings: Theme selection (light/dark mode), language preferences
 - General settings: Default upload folder, file sorting preferences
@@ -110,16 +122,16 @@ A secure cloud-based file storage platform similar to TeraBox, providing users w
 - Download settings: Set download location and speed limits
 
 ## 3. Supported File Types
-- Documents (PDF, DOC, DOCX, TXT, etc.)
-- Images (JPG, PNG, GIF, etc.)\n- Videos (MP4, AVI, MOV, etc.)\n- Audio files (MP3, WAV, etc.)
+- Documents (PDF, DOC, DOCX, TXT, etc.)\n- Images (JPG, PNG, GIF, etc.)
+- Videos (MP4, AVI, MOV, etc.)
+- Audio files (MP3, WAV, etc.)
 - Compressed files (ZIP, RAR, etc.)
 - Torrent files
 - Other common file formats
 
 ## 4. Design Style
 
-### 4.1 Color Scheme
-- Primary color: Deep blue (#2C3E50) representing security and trust
+### 4.1 Color Scheme\n- Primary color: Deep blue (#2C3E50) representing security and trust
 - Secondary color: Light blue (#3498DB) for interactive elements
 - Background: Clean white (#FFFFFF) with subtle gray accents (#F5F6FA)
 
